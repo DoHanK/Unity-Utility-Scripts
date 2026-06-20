@@ -6,7 +6,7 @@ This editor tool allows you to decorate the Hierarchy with your own images while
 
 ## Preview
 
-![Preview](Editor/Preview.jpg)
+![Preview](Preview.jpg)
 
 ## Features
 
