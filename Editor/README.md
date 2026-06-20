@@ -6,7 +6,7 @@ This editor tool allows you to decorate the Hierarchy with your own images while
 
 ## Preview
 
-![Preview](Editor/스크린샷 2026-06-21 052015.jpg)
+![Preview](Editor/Preview.jpg)
 
 ## Features
 
