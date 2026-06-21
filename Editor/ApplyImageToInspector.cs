@@ -11,7 +11,9 @@ public class ApplyImageToInspector : EditorWindow
     static readonly List<Texture2D> _slices = new();
     static readonly List<int> _hierarchyObjects = new();
     static float _textureAlpha = 0.1f;
+    static bool _isApplyPicture;
 
+    static HashSet<int> CachedExpandedHierarchyWindowIDs;
 
         public static HashSet<int> GetExpandedHierarchyWindowIDs()
     {
@@ -132,6 +134,23 @@ public class ApplyImageToInspector : EditorWindow
         EditorApplication.hierarchyChanged -= CreateTexture;
     }
 
+    private void Update()
+    {
+        if (CachedExpandedHierarchyWindowIDs == null) return;
+   
+        if(GetExpandedHierarchyWindowIDs().Count != CachedExpandedHierarchyWindowIDs.Count)
+        {
+            if (_texture)
+            {
+                if (_isApplyPicture)
+                {
+                    CreateTexture();
+                }
+            }
+        }
+
+    }
+
     private void OnGUI()
     {
         GUILayout.Space(10);
@@ -147,11 +166,13 @@ public class ApplyImageToInspector : EditorWindow
 
         if (GUILayout.Button("Apply"))
         {
+            _isApplyPicture = true;
             CreateTexture();
         }
 
         if (GUILayout.Button("Clear"))
         {
+            _isApplyPicture = false;
             ClearTextures();
         }
 
@@ -169,6 +190,8 @@ public class ApplyImageToInspector : EditorWindow
 
     static void OnHierarchyGUI(int instanceID, Rect rect)
     {
+        if (!_isApplyPicture) return;
+
         if (_slices.Count == 0)
             return;
 
@@ -211,6 +234,8 @@ public class ApplyImageToInspector : EditorWindow
         {
             AddRecursive(root.transform, expandedIDs);
         }
+        CachedExpandedHierarchyWindowIDs = expandedIDs;
+
     }
 
     static void AddRecursive(
@@ -319,4 +344,6 @@ public class ApplyImageToInspector : EditorWindow
 
         _slices.Clear();
     }
+
+    
 }
